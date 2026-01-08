@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - RamTech Electricals</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+</head>
+<body>
+    <script>
+        // Simple auth check - add to protected pages only
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('ramtech_token');
+            const user = localStorage.getItem('ramtech_user');
+            
+            if (!token || !user) {
+                alert('Please login to access this page');
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // User is authenticated, load page content
+            console.log('User authenticated, loading page...');
+        });
+    </script>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>RamTech Electricals</span>
+            </div>
+            <div class="nav-links">
+                <a href="../dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#"><i class="fas fa-users"></i> Customers</a>
+                <a href="#"><i class="fas fa-box"></i> Products</a>
+                <a href="#"><i class="fas fa-shopping-cart"></i> Sales</a>
+                <a href="#"><i class="fas fa-user-tie"></i> Employees</a>
+                <a href="#"><i class="fas fa-truck"></i> Suppliers</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Users Management</h1>
+            <button id="addUserBtn" class="btn" style="display: none;" data-role="admin">
+                <i class="fas fa-plus"></i> Add User
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Add User</h2>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                
+                <div class="form-group">
+                    <label for="username">Username *</label>
+                    <input type="text" id="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="first_name">First Name *</label>
+                    <input type="text" id="first_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="last_name">Last Name *</label>
+                    <input type="text" id="last_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password *</label>
+                    <input type="password" id="confirm_password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role">
+                        <option value="employee">Employee</option>
+                        <option value="manager">Manager</option>
+                        <option value="admin">Admin</option>
+                        <option value="viewer">Viewer</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Save User</button>
+            </form>
+        </div>
+    </div>
+
+   
+    <script src="./users.js"></script>
+    <!-- Delete Confirmation Modal -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <h3>Confirm Delete</h3>
+        <p id="confirm-message">Are you sure you want to delete this user?</p>
+        <div class="modal-actions">
+            <button id="confirm-cancel" class="btn btn-secondary">Cancel</button>
+            <button id="confirm-delete" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

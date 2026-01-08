@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - RamTech Electricals</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <script>
+        // Simple auth check - add to protected pages only
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('ramtech_token');
+            const user = localStorage.getItem('ramtech_user');
+            
+            if (!token || !user) {
+                alert('Please login to access this page');
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            // User is authenticated, load page content
+            console.log('User authenticated, loading page...');
+        });
+    </script>
+    <!-- Navigation (same as index.html) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>RamTech Electricals</span>
+            </div>
+            <div class="nav-links">
+                <a href="../dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="./customers.html"><i class="fas fa-users"></i> Customers</a>
+                <a href="./products.html"><i class="fas fa-box"></i> Products</a>
+                <a href="./sales.html"><i class="fas fa-shopping-cart"></i> Sales</a>
+                <a href="./employees.html"><i class="fas fa-user-tie"></i> Employees</a>
+                <a href="./suppliers.html"><i class="fas fa-truck"></i> Suppliers</a>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Products Management</h1>
+            <button id="addProductBtn" class="btn">
+                <i class="fas fa-plus"></i> Add Product
+            </button>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <select id="typeFilter">
+                <option value="">All Types</option>
+                <option value="Regular">Regular</option>
+                <option value="Premium">Premium</option>
+                <option value="Wholesale">Wholesale</option>
+            </select>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Product Category</th>
+                        <th>Unit Price</th>
+                        <th>Supplier</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="allProductsBody">
+                    <!-- Data will be loaded by JavaScript from the database -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button id="prevPage" disabled>Previous</button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button id="nextPage" disabled>Next</button>
+        </div>
+    </main>
+
+    <!-- Same modals as index.html -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Add Product</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                
+                <div class="form-group">
+                    <label for="pname">Product Name *</label>
+                    <input type="text" id="pname" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option value="Wires">Wires</option>
+                        <option value="Switches">Switches</option>
+                        <option value="Sockets">Sockets</option>
+                        <option value="Bulbsu">Bulbs</option>
+                        <option value="Fittings">Fittings</option>
+                        <option value="Fans">Fans</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Safety">Safety Equipment</option>
+                    </select>
+                </div>
+                
+            
+                <div class="form-group">
+                    <label for="unitPrice">Unit Price(GHc)</label>
+                    <input type="number" id="unitprice" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="supplier_id">Supplier</label>
+                    <select id="supplier_id" >
+                        <option value="">Select Supplier</option>
+                        <!-- suppliers data  will be loaded from the database-->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input type="number" id="stock">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <!-- Copy from index.html -->
+        <div class="modal-content small">
+            <h3>Confirm Delete</h3>
+            <p id="confirm-message">Are you sure you want to delete this product?</p>
+            <div class="modal-actions">
+                <button id="confirm-cancel" class="btn btn-secondary">Cancel</button>
+                <button id="confirm-delete" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./products.js"></script>
+</body>
+</html>

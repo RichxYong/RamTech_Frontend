@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RamTech Dashboard</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+   
+    <script>
+        //  auth check - add
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('ramtech_token');
+            const user = localStorage.getItem('ramtech_user');
+            
+            if (!token || !user) {
+                alert('Please login to access this page');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // if user is authenticated, load page content
+            console.log('User authenticated, loading page...');
+        });
+    </script>
+    <!-- AUTH CHECK - MUST BE AT TOP -->
+    <script>
+        console.log('=== DASHBOARD LOADING ===');
+        
+        // Check ALL possible storage locations
+        const auth1 = localStorage.getItem('ramtech_auth');
+        const auth2 = localStorage.getItem('ramtech_token');
+        const auth3 = localStorage.getItem('ramtech_user');
+        const auth4 = sessionStorage.getItem('ramtech_auth');
+        
+        console.log('🔍 Storage check:');
+        console.log('  ramtech_auth (local):', auth1 ? 'FOUND' : 'NOT FOUND');
+        console.log('  ramtech_token (local):', auth2 ? 'FOUND' : 'NOT FOUND');
+        console.log('  ramtech_user (local):', auth3 ? 'FOUND' : 'NOT FOUND');
+        console.log('  ramtech_auth (session):', auth4 ? 'FOUND' : 'NOT FOUND');
+        
+        // If NO auth found anywhere
+        if (!auth1 && !auth2 && !auth3 && !auth4) {
+            console.log('❌ NO AUTH FOUND ANYWHERE - Redirecting to login');
+            alert('Session expired. Please login again.');
+            window.location.href = 'login.html';
+        } else {
+            console.log('✅ Auth found! Loading dashboard...');
+            
+            // Parse the data
+            let userData = null;
+            let token = null;
+            
+            if (auth1) {
+                try {
+                    const authObj = JSON.parse(auth1);
+                    userData = authObj.user;
+                    token = authObj.token;
+                } catch (e) {
+                    console.error('Error parsing auth1:', e);
+                }
+            }
+            
+            if (!userData && auth3) {
+                try {
+                    userData = JSON.parse(auth3);
+                } catch (e) {
+                    console.error('Error parsing auth3:', e);
+                }
+            }
+            
+            if (!token && auth2) {
+                token = auth2;
+            }
+            
+            // Store globally for other scripts
+            window.ramtechUser = userData;
+            window.ramtechToken = token;
+            
+            console.log('👤 User:', userData);
+            console.log('🔑 Token (first 20):', token ? token.substring(0, 20) + '...' : 'none');
+            
+            // Function to render dashboard
+            function renderDashboard() {
+                document.body.innerHTML = `
+                  <main class="container">
+
+                       <!-- Navigation buttons -->
+             <nav class="navbar">
+                <div class="nav-container">
+                    <div class="logo">
+                        <i class="fas fa-bolt"></i>
+                        <span>RamTech Electricals</span>
+                    </div>
+                    <div class="nav-links">
+                        <a href="dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="pages/customers.html"><i class="fas fa-users"></i> Customers</a>
+                        <a href="./pages/products.html"><i class="fas fa-box"></i> Products</a>
+                        <a href="./pages/sales.html"><i class="fas fa-shopping-cart"></i> Sales</a>
+                        <a href="./pages/employees.html"><i class="fas fa-user-tie"></i> Employees</a>
+                        <a href="./pages/suppliers.html"><i class="fas fa-truck"></i> Suppliers</a>
+                        <a href="./pages/users.html" class="active"><i class="fas fa-users-cog"></i> Users</a>
+                        <a href="#" onclick="logout()" style="color: white;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+        <h1>Dashboard</h1>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon customers">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Customers</h3>
+                    <p id="customer-count">Loading...</p>
+                </div>  
+                
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon products">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Products</h3>
+                    <p id="product-count">Loading...</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon employees">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Employees</h3>
+                    <p id="employee-count">Loading...</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon sales">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Suppliers</h3>
+                    <p id="supplier-count">Loading...</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon sales">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Sales</h3>
+                    <p id="sale-count">Loading...</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon revenue">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Revenue</h3>
+                    <p id="revenue-total">Loading...</p>
+                </div>
+            </div>
+        </div>
+<!--sales table-->
+        <section class="section">
+            <h2>Recent Sales</h2>
+            <div class="table-container">
+                <table id="sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Unit Price </th>
+                            <th>Total Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-body">
+                        <!-- Sales Data will be inserted here by JavaScript from the database -->
+                    </tbody>
+                </table>
+            </div>
+            <a href="pages/sales.html" class="btn">View All Sales</a>
+        </section>
+          <!-- Recent Customers Table -->
+        <section class="section">
+            <h2>Customers</h2>
+            <div class="table-container">
+                <table id="customers-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-body">
+                        <!-- Customers Data will be inserted here by JavaScript from the database -->
+                    </tbody>
+                </table>
+            </div>
+            <a href="pages/customers.html" class="btn">View All Customers</a>
+
+        </section>
+
+
+    </main>
+
+                `;
+}
+            
+            // Render the dashboard
+            renderDashboard();
+        }
+        
+        // Helper functions
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear ALL storage
+                localStorage.removeItem('ramtech_auth');
+                localStorage.removeItem('ramtech_token');
+                localStorage.removeItem('ramtech_user');
+                sessionStorage.removeItem('ramtech_auth');
+                sessionStorage.clear();
+                localStorage.clear();
+                
+                alert('Logged out successfully');
+                window.location.href = 'login.html';
+            }
+        }
+            
+    </script>
+      <script src="script.js"></script>
+     
+  </body>    
+</html>
