@@ -84,7 +84,7 @@ async function loadRecentCustomers() {
     const data = await fetchData('/customers/getcustomers');
     if (data && data.data) {
         customers = data.data;
-        renderCustomersTable(customers.slice(0, 2)); // Show only  2 recent
+        renderCustomersTable(customers.slice(0, 2)); 
     }
 }
 
@@ -154,7 +154,7 @@ function logout() {
     localStorage.removeItem('ramtech_logged_in');
     
     // Redirect to login page
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 function isLoggedIn() {
@@ -208,7 +208,7 @@ async function fetchData(endpoint) {
 // Check auth on page load
 document.addEventListener('DOMContentLoaded', async () => {
     // Check if we're on login page
-    if (window.location.pathname.includes('login.html')) {
+    if (window.location.pathname.includes('index.html')) {
         // If already logged in, redirect to dashboard
         if (isLoggedIn()) {
             window.location.href = 'dashboard.html';
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // For protected pages, check authentication
     if (!isLoggedIn()) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
         return;
     }
     
