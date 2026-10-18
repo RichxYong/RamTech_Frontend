@@ -26,7 +26,7 @@
             console.log('User authenticated, loading page...');
         });
     </script>
-    <!-- AUTH CHECK - MUST BE AT TOP -->
+    <!-- AUTH CHECK-->
     <script>
         console.log('=== DASHBOARD LOADING ===');
         
@@ -36,7 +36,7 @@
         const auth3 = localStorage.getItem('ramtech_user');
         const auth4 = sessionStorage.getItem('ramtech_auth');
         
-        console.log('🔍 Storage check:');
+        console.log(' Storage check:');
         console.log('  ramtech_auth (local):', auth1 ? 'FOUND' : 'NOT FOUND');
         console.log('  ramtech_token (local):', auth2 ? 'FOUND' : 'NOT FOUND');
         console.log('  ramtech_user (local):', auth3 ? 'FOUND' : 'NOT FOUND');
@@ -44,7 +44,7 @@
         
         // If NO auth found anywhere
         if (!auth1 && !auth2 && !auth3 && !auth4) {
-            console.log('❌ NO AUTH FOUND ANYWHERE - Redirecting to login');
+            console.log(' NO AUTH FOUND ANYWHERE - Redirecting to login');
             alert('Session expired. Please login again.');
             window.location.href = 'login.html';
         } else {
@@ -80,8 +80,8 @@
             window.ramtechUser = userData;
             window.ramtechToken = token;
             
-            console.log('👤 User:', userData);
-            console.log('🔑 Token (first 20):', token ? token.substring(0, 20) + '...' : 'none');
+            console.log(' User:', userData);
+            console.log(' Token (first 20):', token ? token.substring(0, 20) + '...' : 'none');
             
             // Function to render dashboard
             function renderDashboard() {

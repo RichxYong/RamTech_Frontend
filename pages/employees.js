@@ -5,7 +5,7 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let employeeToDelete = null;
 
-const API_BASE_URL = "https://ramtechbackend-production.up.railway.app";
+const API_BASE_URL = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing employees page...');

@@ -2,7 +2,7 @@
 
 
 // API  Configuration to the Backend
-const API_BASE_URL = 'https://ramtechbackend-production.up.railway.app';
+const API_BASE_URL = 'http://localhost:3000';
 
 // DOM Elements
 const customerCountEl = document.getElementById('customer-count');
