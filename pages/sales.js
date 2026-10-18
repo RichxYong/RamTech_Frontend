@@ -8,7 +8,7 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let saleToDelete = null;
 
-const API_BASE_URL = "https://ramtechbackend-production.up.railway.app";
+const API_BASE_URL = 'http://localhost:3000';
 
 // DOM element references
 let saleModal, confirmModal, closeModalBtns, confirmCancelBtn, confirmDeleteBtn, saleForm;
