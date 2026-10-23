@@ -6,7 +6,7 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let supplierToDelete = null;
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://ramtech-backend.onrender.com';
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing suppliers page...');
