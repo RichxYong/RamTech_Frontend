@@ -2,7 +2,7 @@
 
 
 // API  Configuration to the Backend
-const API_BASE_URL = 'https://ramtech-backend.onrender.com/';
+const API_BASE_URL = 'https://ramtech-backend.onrender.com';
 
 // DOM Elements
 const customerCountEl = document.getElementById('customer-count');
